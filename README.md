@@ -4,47 +4,69 @@
 [![rank](https://make.fun/badge/gta6-01/Ryan-zhi/coral-bay-heat/rank.svg)](https://make.fun/bounty/gta6-01)
 [![reward](https://make.fun/badge/gta6-01/Ryan-zhi/coral-bay-heat/reward.svg)](https://make.fun/bounty/gta6-01)
 
-An original open-world crime game for the
-[make.fun](https://make.fun) **gta6-01** bounty — no assets, names or
-material from any commercial game: the city, the people and the story are
-all Coral Bay's own.
+A complete, original open-world crime game that runs in the browser,
+built for the [make.fun](https://make.fun) **gta6-01** bounty. The city,
+the people and the story are Coral Bay's own — nothing here comes from
+any commercial game.
 
-Marco Reyes is back in Coral Bay with empty pockets. Steal a car, run
-Rosa's jobs from the Coral Motel to the docks, the marina and the
-lighthouse, and dodge the Coral Bay PD while the wanted stars climb.
+Marco Reyes rolls back into Coral Bay broke. Rosa, who runs the Coral
+Motel, has work for a driver with no questions and quick hands: a car to
+lift, a package to move, heat to shake, and one last sunset run to the
+lighthouse before her boat leaves.
 
-## What's in the game
+## What is in the bay
 
-- **A living city** — a seeded, sun-soaked coastal city: road grid with
-  lane-following traffic, parked cars to steal, pedestrians who stroll
-  and flee, pastel towers, Palm Park, a beach, marina, docks and a
-  lighthouse.
-- **Driving & stealing** — walk up to any car and press E; arcade driving
-  with traffic that brakes, turns and honks its way around you.
-- **Wanted system & police** — crimes raise your stars; police cars spawn,
-  chase, ram and bust you if they pin you down. Lose them to cool off.
-- **Four story missions** — First Wheels, The Package, Lose the Heat and
-  the timed Sunset Run, with banners, objectives, markers, a minimap and
-  cash rewards; then free roam.
-- **HUD & menus** — minimap with police blips and the mission marker,
-  wanted stars, health and car condition, speedometer, bust meter, title
-  screen, pause, busted/wasted screens — and progress saved in the
-  browser.
+- **A living, seeded city** — the same sun-soaked coastline on every
+  load: a road grid with lane-following traffic that brakes for the car
+  ahead and turns at intersections, parked cars waiting to be borrowed,
+  pedestrians who stroll the blocks and scatter from fast traffic,
+  pastel tower blocks, Palm Park with its fountain, a beach, a marina,
+  working docks and a lighthouse.
+- **On foot and behind the wheel** — walk or sprint anywhere, punch
+  troublemakers, step up to any car and take it. Driving is pure arcade:
+  throttle, brake, reverse, speed-sensitive steering, building scrapes
+  and car-to-car shunts.
+- **The Coral Bay PD** — every crime feeds a heat meter worth one to
+  five wanted stars. Patrol cars spawn as the stars climb, hunt Marco
+  down and ram him; pin him slow or on foot and the bust meter fills.
+  Busted or wasted, the motel patches him up for $150 and the bay
+  forgets — until the next job.
+- **Four story chapters** — First Wheels, The Package, Lose the Heat
+  and the timed Sunset Run, each introduced with a banner and brief,
+  tracked by an on-screen objective, a pulsing world marker and an
+  off-screen arrow, and paid in cash. Finish the story and the bay is
+  yours in free roam.
+- **Full HUD** — mission and cash card, health, speedometer and car
+  condition while driving, wanted stars, bust meter, toast notes, and a
+  minimap with the mission marker and flashing police blips.
+- **Screens and saving** — title screen with story and controls, pause,
+  busted/wasted overlays, and progress (chapter, cash, story finished)
+  kept in localStorage so a saved game can be continued.
 
-## Play
+## How to play
 
-Serve `game/` with any static file server (or open it through one) and
-visit `index.html`. WASD/arrows move and drive, E enters and exits cars,
-F or Space punches, Shift sprints, Esc pauses.
+Serve the `game/` folder with any static file server and open
+`index.html`. No build step, no network requests.
 
-## Layout
+| Keys | Action |
+| --- | --- |
+| WASD / arrows | Walk, drive, steer |
+| Shift | Sprint on foot |
+| E | Enter / exit a car |
+| F or Space | Punch |
+| Esc or P | Pause |
+| Enter | Confirm / respawn |
 
-- `main.ts` — the handover program (copies the game into `/output` and
-  writes the dossier with `vendor/makefun-game.ts`).
-- `game/src/world.js` — city generation, traffic, police, wanted,
-  missions, collisions: the simulation.
-- `game/src/render.js` — canvas drawing, HUD and minimap.
-- `game/src/main.js` — screens, loop, saving, sound.
-- `game/src/shots.js` — the posed scenes behind `screenshots/`.
+## How the code is laid out
+
+- `main.ts` — the submission program: copies the game into `/output`
+  and writes the judges' dossier via `vendor/makefun-game.ts`.
+- `game/src/world.js` — the simulation: city generation, traffic,
+  pedestrians, police, wanted, collisions, the chapter chain.
+- `game/src/render.js` — every pixel: city, cars, people, HUD, minimap,
+  menus.
+- `game/src/main.js` — screens, the frame loop, saving, sound stingers.
+- `game/src/config.js` — geometry, palette and the chapter script.
+- `game/src/shots.js` — the staged scenes behind `screenshots/`.
 
 MIT licensed.
