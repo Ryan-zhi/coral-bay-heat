@@ -1,28 +1,41 @@
-// Coral Bay Heat — keyboard input. Movement keys are held-state; action
-// keys (enter car, punch, pause, confirm) are edge-triggered so one press
-// fires once.
+// Coral Bay Heat — keyboard handling. Direction and sprint keys report
+// held state; the verbs (use a car, throw a punch, pause, confirm) are
+// edge-triggered: one key press is consumed exactly once, so holding E
+// never strobes the player in and out of a car.
 
-export function makeInput() {
+export function wireKeyboard() {
   const held = new Set();
-  const pressed = new Set();
-  const map = {
+  const tapped = new Set();
+  const holdMap = {
     KeyW: 'up', ArrowUp: 'up',
     KeyS: 'down', ArrowDown: 'down',
     KeyA: 'left', ArrowLeft: 'left',
     KeyD: 'right', ArrowRight: 'right',
     ShiftLeft: 'sprint', ShiftRight: 'sprint',
   };
-  const edge = { KeyE: 'interact', KeyF: 'attack', Space: 'attack', Escape: 'pause', Enter: 'confirm', KeyP: 'pause' };
+  const tapMap = { KeyE: 'use', KeyF: 'hit', Space: 'hit', Escape: 'pause', KeyP: 'pause', Enter: 'confirm' };
 
-  window.addEventListener('keydown', (e) => {
-    if (map[e.code]) { held.add(map[e.code]); e.preventDefault(); }
-    if (edge[e.code] && !e.repeat) { pressed.add(edge[e.code]); e.preventDefault(); }
-    if (e.code === 'Enter') pressed.add('interact');
+  window.addEventListener('keydown', (event) => {
+    if (holdMap[event.code]) {
+      held.add(holdMap[event.code]);
+      event.preventDefault();
+    }
+    if (tapMap[event.code] && !event.repeat) {
+      tapped.add(tapMap[event.code]);
+      event.preventDefault();
+    }
+    if (event.code === 'Enter') tapped.add('use');
   });
-  window.addEventListener('keyup', (e) => {
-    if (map[e.code]) held.delete(map[e.code]);
+  window.addEventListener('keyup', (event) => {
+    if (holdMap[event.code]) held.delete(holdMap[event.code]);
   });
   window.addEventListener('blur', () => held.clear());
+
+  function consume(name) {
+    const had = tapped.has(name);
+    tapped.delete(name);
+    return had;
+  }
 
   return {
     get up() { return held.has('up'); },
@@ -30,10 +43,9 @@ export function makeInput() {
     get left() { return held.has('left'); },
     get right() { return held.has('right'); },
     get sprint() { return held.has('sprint'); },
-    get interact() { const v = pressed.has('interact'); pressed.delete('interact'); return v; },
-    get attack() { const v = pressed.has('attack'); pressed.delete('attack'); return v; },
-    get pause() { const v = pressed.has('pause'); pressed.delete('pause'); return v; },
-    get confirm() { const v = pressed.has('confirm'); pressed.delete('confirm'); return v; },
-    poke(name) { pressed.add(name); },
+    get use() { return consume('use'); },
+    get hit() { return consume('hit'); },
+    get pause() { return consume('pause'); },
+    get confirm() { return consume('confirm'); },
   };
 }
